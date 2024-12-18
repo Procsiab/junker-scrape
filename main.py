@@ -129,25 +129,31 @@ def fetch(municipality: str, area: str, collect_date: str) -> list[Collection]:
 
 
 def main():
-    if len(sys.argv) != 3:
-        raise ValueError("Wrong number of arguments passed!")
-    if sys.argv[1] is None:
-        raise ValueError("The 'municipality' argument should be a string!")
-    else:
-        provided_mun = sys.argv[1]
-    if sys.argv[2] is None:
-        raise ValueError("The 'area' argument should be a string!")
-    else:
-        provided_area = sys.argv[2]
-    if sys.argv[3] is None:
-        raise ValueError("The 'date' argument should be a string!")
-    else:
-        provided_date = sys.argv[3]
+    try:
+        if len(sys.argv) != 4:
+            raise ValueError("Wrong number of arguments passed!")
+        if sys.argv[1] is None:
+            raise ValueError("The 'municipality' argument should be a string!")
+        else:
+            provided_mun = sys.argv[1]
+        if sys.argv[2] is None:
+            raise ValueError("The 'area' argument should be a string!")
+        else:
+            provided_area = sys.argv[2]
+        if sys.argv[3] is None:
+            raise ValueError("The 'date' argument should be a string!")
+        else:
+            provided_date = sys.argv[3]
 
-    collection_list = fetch(municipality=provided_mun,
-                            area=provided_area,
-                            collect_date=provided_date)
-    print(json.dumps(collection_list))
+        collection_list = fetch(municipality=provided_mun,
+                                area=provided_area,
+                                collect_date=provided_date)
+        print(json.dumps(collection_list))
+    except Exception as e:
+        error_dict = {
+            "error": "{msg}".format(msg=str(e)),
+        }
+        print(json.dumps(error_dict))
 
 
 if __name__ == "__main__":
